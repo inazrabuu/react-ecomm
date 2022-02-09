@@ -1,5 +1,4 @@
 import React from 'react'
-import { auth } from '../../firebase/firebase.util'
 import { createStructuredSelector } from 'reselect'
 
 import { connect } from 'react-redux'
