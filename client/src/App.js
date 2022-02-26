@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component'
 import SignInUp from './pages/sign-in-up/sign-in-up.component'
 import CheckoutPage from './pages/checkout/checkout.component'
@@ -12,6 +11,8 @@ import Header from './components/header/header.component'
 
 import { selectCurrentUser } from './redux/user/user.selectors'
 import { checkUserSession } from './redux/user/user.action'
+
+const HomePage = lazy(() => { return import('./pages/homepage/homepage.component') })
 
 const App = () => {
   const currentUser = useSelector(selectCurrentUser)
@@ -26,7 +27,9 @@ const App = () => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Route exact path='/' component={HomePage} />
+        <Suspense fallback={<div>...Loading</div>}>
+          <Route exact path='/' component={HomePage} />
+        </Suspense>
         <Route path='/shop' component={ShopPage} />
         <Route exact path='/checkout' component={CheckoutPage} />
         <Route 
